@@ -18,7 +18,7 @@ page.xpath('//a/@href').each do |links|
 end
 
 @urls.each do |url|
-  `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@uri}#{@url}"`
+  `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@uri}#{url}"`
 end
 
 @dir.each do |f|
