@@ -3,15 +3,26 @@ require 'open-uri'
 require 'net/http'
 
 @urls = []
+@uri = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
+@target = "/" + @uri.split("//")[1]
+@dir = Dir["temp/#{@target}*.zip"]
 
-page = Nokogiri::HTML(open('http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/'))
+def unzip(arg)
+  `unzip "#{arg}" -d data`
+end
+
+page = Nokogiri::HTML(open(@uri))
 
 page.xpath('//a/@href').each do |links|
   @urls << links.content
 end
 
 @urls.each do |url|
-  `wget -r -nc -np -l 1 -A zip -P "./temp" "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/#{url}" `
+  `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@uri}#{@url}"`
+end
+
+@dir.each do |f|
+  unzip(f)
 end
 
 
