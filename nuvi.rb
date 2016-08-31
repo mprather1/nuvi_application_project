@@ -3,7 +3,7 @@ require 'nokogiri'
 require 'open-uri'
 require 'redis'
 r = Redis.new
-redis.del 'NEWS_XML'
+r.del 'NEWS_XML'
 
 @urls = []
 @target = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
