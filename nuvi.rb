@@ -21,14 +21,14 @@ end
 @dir.each do |d|
   Zip::File.open(d) do |zip_file|
     zip_file.each do |f|
-      f.extract("data/#{f}")
+      f.extract("data/#{f}") { true }
     end
   end
 end
 
 Dir["data/*.xml"].each do |f|
   xmldoc = Nokogiri::XML(File.open(f))
-  NEWS_XML.set(f, xmldoc)
+  NEWS_XML.mset(f, xmldoc)
 end
 
 Dir["data/*.xml"].each do |f|
