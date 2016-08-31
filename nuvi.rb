@@ -2,7 +2,8 @@ require "zip"
 require 'nokogiri'
 require 'open-uri'
 require 'redis'
-NEWS_XML = Redis.new
+r = Redis.new
+redis.del 'NEWS_XML'
 
 @urls = []
 @target = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
@@ -28,9 +29,11 @@ end
 
 Dir["data/*.xml"].each do |f|
   xmldoc = Nokogiri::XML(File.open(f))
-  NEWS_XML.set(f, xmldoc)
+  r.sadd(xmldoc)
 end
 
-Dir["data/*.xml"].each do |f|
-  puts NEWS_XML.get("#{f}")
-end
+# Dir["data/*.xml"].each do |f|
+  # puts NEWS_XML.get("#{f}")
+# end
+
+# r.smembers('NEWS_XML')
