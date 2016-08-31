@@ -2,7 +2,7 @@ require "zip"
 require 'nokogiri'
 require 'open-uri'
 require 'redis'
-redis = Redis.new
+NEWS_XML = Redis.new
 
 @urls = []
 @uri = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
@@ -25,4 +25,10 @@ end
       f.extract("data/#{f}")
     end
   end
+end
+
+# count = 0
+Dir["data/*.xml"].each do |f|
+  NEWS_XML.set("#{f}")
+  # count += 1
 end
