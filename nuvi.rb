@@ -2,6 +2,7 @@ require "zip"
 require 'nokogiri'
 require 'open-uri'
 require 'redis'
+
 r = Redis.new
 r.del 'NEWS_XML'
 
@@ -29,11 +30,7 @@ end
 
 Dir["data/*.xml"].each do |f|
   xmldoc = Nokogiri::XML(File.open(f))
-  r.sadd(xmldoc)
+  r.sadd "NEWS_XML", "#{xmldoc}"
 end
 
-# Dir["data/*.xml"].each do |f|
-  # puts NEWS_XML.get("#{f}")
-# end
-
-# r.smembers('NEWS_XML')
+# puts r.smembers('NEWS_XML')
