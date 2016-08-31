@@ -28,5 +28,10 @@ end
 end
 
 Dir["data/*.xml"].each do |f|
-  NEWS_XML.set("#{f}")
+  xmldoc = Nokogiri::XML(File.open(f))
+  NEWS_XML.set(f, xmldoc)
+end
+
+Dir["data/*.xml"].each do |f|
+  puts NEWS_XML.get("#{f}")
 end
