@@ -27,8 +27,6 @@ end
   end
 end
 
-# count = 0
 Dir["data/*.xml"].each do |f|
   NEWS_XML.set("#{f}")
-  # count += 1
 end
