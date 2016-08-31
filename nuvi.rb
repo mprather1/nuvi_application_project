@@ -28,7 +28,7 @@ end
 
 Dir["data/*.xml"].each do |f|
   xmldoc = Nokogiri::XML(File.open(f))
-  NEWS_XML.mset(f, xmldoc)
+  NEWS_XML.set(f, xmldoc)
 end
 
 Dir["data/*.xml"].each do |f|
