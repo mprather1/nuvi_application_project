@@ -1,30 +1,45 @@
+require "zip"
 require 'nokogiri'
 require 'open-uri'
 require 'net/http'
+require 'redis'
+redis = Redis.new
 
 @urls = []
 @uri = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
 @target = "/" + @uri.split("//")[1]
 @dir = Dir["temp/#{@target}*.zip"]
 
-def unzip(arg)
-  `unzip "#{arg}" -d data`
-end
+# def unzip(arg)
+#   `unzip "#{arg}" -d data`
+# end
 
 page = Nokogiri::HTML(open(@uri))
 
 page.xpath('//a/@href').each do |links|
   @urls << links.content
 end
+# 
+# @urls.each do |url|
+#   `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@uri}#{url}"`
+# end
 
-@urls.each do |url|
-  `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@uri}#{url}"`
+
+@dir.each do |d|
+  Zip::File.open(d) do |zip_file|
+    zip_file.each do |f|
+      f.extract("data/#{f}")
+    end
+  end
 end
 
-@dir.each do |f|
-  unzip(f)
-end
+# @dir.each do |f|
+#   unzip(f)
+# end
 
+# redis.name
+redis.set "foo", "bar"
+puts redis.get("foo")
 
 # @urls.each do |url|
 #   open("#{url}", 'wb') do |fo|
@@ -55,7 +70,7 @@ end
 # puts @urls
 # Net::HTTP.start('http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/') { |http|
 #   @urls.length.times do |i|
-    
+
 # }
 # end
 
