@@ -5,18 +5,17 @@ require 'redis'
 NEWS_XML = Redis.new
 
 @urls = []
-@uri = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
-@target = "/" + @uri.split("//")[1]
-@dir = Dir["temp/#{@target}*.zip"]
+@target = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
+@dir = Dir["temp/" + @target.split("//")[1] + "*.zip"]
 
-page = Nokogiri::HTML(open(@uri))
+page = Nokogiri::HTML(open(@target))
 
 page.xpath('//a/@href').each do |links|
   @urls << links.content
 end
 
 @urls.each do |url|
-  `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@uri}#{url}"`
+  `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@target}#{url}"`
 end
 
 @dir.each do |d|
