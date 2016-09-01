@@ -27,17 +27,17 @@ class Scraper
     dir = Dir["temp/" + @target.split("//")[1] + "*.zip"]
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
-      zip_file.each do |f|
-        f.extract("data/#{f}") { true }
+        zip_file.each do |f|
+          f.extract("data/#{f}") { true }
+        end
       end
     end
   end
   
-  def import_to_redis
+  def to_redis
     Dir["data/*.xml"].each do |f|
       xmldoc = Nokogiri::XML(File.open(f))
-        @r.sadd "NEWS_XML", "#{xmldoc}"
-      end
+      @r.sadd "NEWS_XML", "#{xmldoc}"
     end
   end
   
