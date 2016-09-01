@@ -33,9 +33,9 @@ class Scraper
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
           f.extract("data/#{f}") { true }
-          puts "Extracted #{f}..."
         end
       end
+      puts "Extracted #{d}..."
     end
   end
   
