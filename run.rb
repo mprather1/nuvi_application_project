@@ -1,0 +1,6 @@
+require_relative 'application_project'
+
+applicationProject = Application.new
+applicationProject.download_files
+applicationProject.extract_zip_files
+applicationProject.import_to_redis
