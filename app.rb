@@ -22,16 +22,18 @@ class Scraper
       if url.split(".")[1] == "zip"
         download = open("#{@target}#{url}")
         IO.copy_stream(download, "temp/#{url}")
+        puts "Downloaded #{url}..."
       end
     end
   end
   
   def extract_zip_files
-    dir = Dir["temp/" + "*.zip"]
+    dir = Dir["temp/*.zip"]
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
           f.extract("data/#{f}") { true }
+          puts "Extracted #{f}..."
         end
       end
     end
@@ -41,6 +43,7 @@ class Scraper
     Dir["data/*.xml"].each do |f|
       xmldoc = Nokogiri::XML(File.open(f))
       @r.sadd "NEWS_XML", "#{xmldoc}"
+      puts "Uploaded contents of #{f} to Redis..."
     end
   end
   
