@@ -1,6 +1,7 @@
 require_relative 'application_project'
 
-applicationProject = Application.new
-applicationProject.download_files
-applicationProject.extract_zip_files
-applicationProject.import_to_redis
+app = Scraper.new
+app.target = "http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/"
+app.download_files
+app.extract_zip_files
+app.import_to_redis
