@@ -19,12 +19,15 @@ class Scraper
       urls << links.content
     end
     urls.each do |url|
-      `wget -r -nc -np -l 1 -A zip -P "./temp" "#{@target}#{url}"`
+      if url.split(".")[1] == "zip"
+        download = open("#{@target}#{url}")
+        IO.copy_stream(download, "temp/#{url}")
+      end
     end
   end
   
   def extract_zip_files
-    dir = Dir["temp/" + @target.split("//")[1] + "*.zip"]
+    dir = Dir["temp/" + "*.zip"]
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
