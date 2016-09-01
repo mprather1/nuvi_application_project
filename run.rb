@@ -8,6 +8,5 @@ app.extract_zip_files
 app.to_redis
 
 puts "All done..."
-print "Press any key to exit..."
+puts "Press any key to exit..."
 STDIN.getch
-print "\n"
