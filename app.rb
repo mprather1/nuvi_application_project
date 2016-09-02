@@ -39,14 +39,15 @@ class Scraper
   def extract_zip_files
     FileUtils.mkdir_p @data
     dir = Dir["#{@download}/*.zip"]
-    puts "\nExtracting zip files from #{@download}..."
+    puts "\nPlease wait..."
+    puts "Extracting zip files from #{@download}..."
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
           f.extract("#{@data}/#{f}") { true }
+          puts "Extracted #{zip_file}..."
         end
       end
-      puts "Extracted #{d}..."
     end
   end
   
