@@ -28,7 +28,7 @@ class Scraper
     end
     puts "Downloading files from #{@target}..."
     urls.each do |url|
-      if url.split(".")[1] == "zip"
+      if url.split(".").last == "zip"
         download = open("#{@target}#{url}")
         IO.copy_stream(download, "#{@download}/#{url}")
         puts "Downloaded #{url}..."
@@ -52,9 +52,10 @@ class Scraper
   end
   
   def to_redis
+    dir = Dir["#{@data}/*.xml"]
     puts "\nPlease wait..."
     puts "Uploading contents of data directory to '#{@redis_list}'..."
-    Dir["#{@data}/*.xml"].each do |f|
+    dir.each do |f|
       xmldoc = Nokogiri::XML(File.open(f))
       @r.sadd "#{@redis_list}", "#{xmldoc}"
     end
