@@ -52,7 +52,7 @@ class Scraper
   
   def to_redis
     puts "\nPlease wait..."
-    puts "Uploading contents of data directory to Redis..."
+    puts "Uploading contents of data directory to '#{@redis_list}'..."
     Dir["#{@data}/*.xml"].each do |f|
       xmldoc = Nokogiri::XML(File.open(f))
       @r.sadd "#{@redis_list}", "#{xmldoc}"
