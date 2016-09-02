@@ -11,7 +11,7 @@ Downloads files linked to in <a> tags on url specified in Scraper.target to .bin
 Extracts zip files from .bin/download_directory to .bin/data_directory
 Imports contents of xml files in .bin/data_directory to Redis list entitled 'NEWS_XML'.
 
-Target url and Redis list can be added as per instructions below.
+Target url and Redis list can be changed as per instructions below.
 
 Directions:
 
