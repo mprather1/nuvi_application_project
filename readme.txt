@@ -7,9 +7,9 @@ Requires Ruby Gems listed below:
   "redis"
   "fileutils"
 
-Downloads files linked to in <a> tags on url specified in Scraper.target to ./temp.
-Extracts zip files from ./temp  to ./data
-Imports contents of xml files in ./data to Redis list entitled 'NEWS_XML'.
+Downloads files linked to in <a> tags on url specified in Scraper.target to .bin/download_directory.
+Extracts zip files from .bin/download_directory to .bin/data_directory
+Imports contents of xml files in .bin/data_directory to Redis list entitled 'NEWS_XML'.
 
 New url can be added as per instructions below.
 
