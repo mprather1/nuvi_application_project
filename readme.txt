@@ -5,6 +5,7 @@ Requires Ruby Gems listed below:
   "nokogiri"
   "open-uri"
   "redis"
+  "fileutils"
 
 Downloads files linked to in <a> tags on url specified in Scraper.target to ./temp.
 Extracts zip files from ./temp  to ./data
