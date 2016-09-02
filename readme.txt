@@ -10,6 +10,8 @@ Downloads files linked to in <a> tags on url specified in Scraper.target to ./te
 Extracts zip files from ./temp  to ./data
 Imports contents of xml files in ./data to Redis list entitled 'NEWS_XML'.
 
+New url can be added as per instructions below.
+
 Directions:
 
 Open terminal in directory and type "ruby run.rb"
@@ -20,12 +22,8 @@ require_relative 'app'
 
 app = Scraper.new
 
-app.target("http://example") # this is the url with the zip files to download.
-
-# the following folders must exist in the directory before script is ran.
-app.folder('temp') #this is the temp folder that will contain the zip folders.
-app.data('data') # this is the folder that will contain the extracted xml files.
-
-app.download_files # downloads the files to folder specified in app.folder.
-app.extract_zip_files # extracts zip files to folder specified in app.data.
-app.to_redis # uploads contents of files in folder specified in app.data to Redis list.
+app.target("http://example")    # url format => "http://example.org/whatever/"
+app.create_folders    # creates data and download folders in bin folder
+app.download_files    # downloads the files to bin/folder.download
+app.extract_zip_files     # extracts zip files to bin/folder.data
+app.to_redis    # uploads contents of files in bin/folder.data to Redis list.

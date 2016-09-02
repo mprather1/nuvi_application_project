@@ -2,6 +2,7 @@ require "zip"
 require 'nokogiri'
 require 'open-uri'
 require 'redis'
+require 'fileutils'
 
 class Scraper
   
@@ -12,7 +13,14 @@ class Scraper
     @target = target
   end
   
+  def create_folders
+    folder = "#{DateTime.now.to_time.to_i}_" + "#{@target}".split('/').last
+    @download = "bin/#{folder}_download"
+    @data = "bin/#{folder}_data"
+  end
+  
   def download_files
+    FileUtils.mkdir_p @download
     urls = []
     page = Nokogiri::HTML(open(@target))
     page.xpath('//a/@href').each do |links|
@@ -21,18 +29,19 @@ class Scraper
     urls.each do |url|
       if url.split(".")[1] == "zip"
         download = open("#{@target}#{url}")
-        IO.copy_stream(download, "temp/#{url}")
+        IO.copy_stream(download, "#{@download}/#{url}")
         puts "Downloaded #{url}..."
       end
     end
   end
   
   def extract_zip_files
-    dir = Dir["temp/*.zip"]
+    FileUtils.mkdir_p @data
+    dir = Dir["#{@download}/*.zip"]
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
-          f.extract("data/#{f}") { true }
+          f.extract("#{@data}/#{f}") { true }
         end
       end
       puts "Extracted #{d}..."
@@ -40,10 +49,10 @@ class Scraper
   end
   
   def to_redis
-    Dir["data/*.xml"].each do |f|
+    puts "Uploading contents of ./data to Redis..."
+    Dir["#{@data}/*.xml"].each do |f|
       xmldoc = Nokogiri::XML(File.open(f))
       @r.sadd "NEWS_XML", "#{xmldoc}"
-      puts "Uploaded contents of #{f} to Redis..."
     end
   end
   
