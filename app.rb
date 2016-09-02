@@ -6,7 +6,7 @@ require 'fileutils'
 
 class Scraper
   
-  attr_accessor :target
+  attr_accessor :target, :redis_list
 
   def initialize
     @r = Redis.new
@@ -26,6 +26,7 @@ class Scraper
     page.xpath('//a/@href').each do |links|
       urls << links.content
     end
+    puts "Downloading files from #{@target}..."
     urls.each do |url|
       if url.split(".")[1] == "zip"
         download = open("#{@target}#{url}")
@@ -38,6 +39,7 @@ class Scraper
   def extract_zip_files
     FileUtils.mkdir_p @data
     dir = Dir["#{@download}/*.zip"]
+    puts "\nExtracting zip files from #{@download}..."
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
@@ -49,10 +51,11 @@ class Scraper
   end
   
   def to_redis
-    puts "Uploading contents of ./data to Redis..."
+    puts "\nPlease wait..."
+    puts "Uploading contents of data directory to Redis..."
     Dir["#{@data}/*.xml"].each do |f|
       xmldoc = Nokogiri::XML(File.open(f))
-      @r.sadd "NEWS_XML", "#{xmldoc}"
+      @r.sadd "#{@redis_list}", "#{xmldoc}"
     end
   end
   

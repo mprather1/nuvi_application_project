@@ -1,4 +1,4 @@
-Tested on Xubuntu 15.10.
+Tested on Xubuntu 15.10
 Ruby 2.3.0
 Requires Ruby Gems listed below:
   "zip"
@@ -17,14 +17,11 @@ Directions:
 
 Open terminal in directory and type "ruby run.rb"
 
-or 
-
-require_relative 'app'
-
-app = Scraper.new
+################################################
 
 app.target("http://example")    # url format => "http://example.org/whatever/"
-app.create_folders    # creates data and download folders in bin folder
-app.download_files    # downloads the files to bin/folder.download
-app.extract_zip_files     # extracts zip files to bin/folder.data
+app.redis_list("NEWS_XML")    # name of Redis list.
+app.create_folders    # creates data and download directories in bin folder.
+app.download_files    # downloads the files to bin/folder.download.
+app.extract_zip_files     # extracts zip files to bin/folder.data.
 app.to_redis    # uploads contents of files in bin/folder.data to Redis list.
