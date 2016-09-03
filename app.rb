@@ -11,9 +11,10 @@ class Scraper
   def initialize
     @r = Redis.new
     @target = target
+    @redis_list = redis_list
   end
   
-  def create_folders
+  def config_directory
     folder = "#{DateTime.now.strftime('%Y-%m-%d')}-" + "#{@target}".split('/').last
     @download = "bin/#{folder}_download"
     @data = "bin/#{folder}_data"
