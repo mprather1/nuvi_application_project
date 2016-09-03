@@ -60,9 +60,11 @@ class Scraper
     dir.each do |d|
       Zip::File.open(d) do |zip_file|
         zip_file.each do |f|
-          f.extract("#{@data}/#{f}") { true }
-          puts "Extracted #{zip_file}..."
+          if !File.file?("#{@data}/#{f}")
+            f.extract("#{@data}/#{f}") { true }
+          end
         end
+        puts "Processing #{zip_file}..."
       end
     end
   end
