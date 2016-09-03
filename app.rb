@@ -14,7 +14,7 @@ class Scraper
   end
   
   def create_folders
-    folder = "#{DateTime.now.to_time.to_i}_" + "#{@target}".split('/').last
+    folder = "#{DateTime.now.strftime('%Y-%m-%d')}-" + "#{@target}".split('/').last
     @download = "bin/#{folder}_download"
     @data = "bin/#{folder}_data"
   end
@@ -29,7 +29,7 @@ class Scraper
     end
     puts "Downloading files from #{@target}..."
     urls.each do |url|
-      if url.split(".").last == "zip"
+      if url.split(".").last == "zip" && !File.file?(url)
         begin
           Timeout.timeout(60) do 
             download = open("#{@target}#{url}")
