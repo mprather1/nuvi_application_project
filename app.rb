@@ -21,7 +21,7 @@ class Scraper
   
   def download_files
     FileUtils.mkdir_p @download
-    retries = 10
+    retries = 3
     urls = []
     page = Nokogiri::HTML(open(@target))
     page.xpath('//a/@href').each do |links|
@@ -31,7 +31,7 @@ class Scraper
     urls.each do |url|
       if url.split(".").last == "zip"
         begin
-          Timeout.timeout(45) do 
+          Timeout.timeout(60) do 
             download = open("#{@target}#{url}")
             IO.copy_stream(download, "#{@download}/#{url}")
             puts "Downloaded #{url}..."
