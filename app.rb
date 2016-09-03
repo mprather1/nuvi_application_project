@@ -31,7 +31,7 @@ class Scraper
     urls.each do |url|
       if url.split(".").last == "zip"
         begin
-          Timeout.timeout(1) do 
+          Timeout.timeout(30) do 
             download = open("#{@target}#{url}")
             IO.copy_stream(download, "#{@download}/#{url}")
             puts "Downloaded #{url}..."
